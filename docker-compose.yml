@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  api:
+    container_name: inventory-backend-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: npm run start:dev
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=inventory
+
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount source for hot reload
+      - .:/usr/src/app
+      # Keep node_modules inside container so host does not override it
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: inventory-db-dev
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=inventory
+    ports:
+      - "5432:5432"
+    volumes:
+      - inventory_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  inventory_db_data:
