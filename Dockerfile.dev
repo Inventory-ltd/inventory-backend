@@ -20,3 +20,11 @@ EXPOSE 3000
 
 # Default command: start in watch mode
 CMD ["npm", "run", "start:dev"]
+
+
+# Run: docker compose run --rm api npm run test
+# ==============================================
+# Uses the api image and config (env, volumes, etc.)
+# Starts a new container whose main process is npm run test...
+# --rm removes that container when tests finish
+# Your main api service keeps running start:dev the whole time.
