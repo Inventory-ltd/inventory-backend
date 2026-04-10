@@ -24,4 +24,9 @@ export class AppController {
       environment: process.env.NODE_ENV ?? process.env.ENVIRONMENT  ?? 'no env file found',
     }
   }
+
+  @Get('secret')
+  getEnv(): string {
+    return `Haimouni loves Yoshi`;
+  }
 }
